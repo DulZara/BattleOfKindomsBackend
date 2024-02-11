@@ -1,0 +1,5 @@
+spring:
+  data:
+   mongodb:
+    uri: mongodb+srv://dulsara:dulsara@clusterdnm.qgl5t64.mongodb.net/?retryWrites=true&w=majority
+    database: CentralFinanceEvent
