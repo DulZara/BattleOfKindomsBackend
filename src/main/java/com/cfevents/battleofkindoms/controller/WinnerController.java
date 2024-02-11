@@ -1,5 +1,6 @@
 package com.cfevents.battleofkindoms.controller;
 
+import com.cfevents.battleofkindoms.DTO.WinnerDTO;
 import com.cfevents.battleofkindoms.entity.Winner;
 import com.cfevents.battleofkindoms.service.WinnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class WinnerController {
     @PostMapping("/addWinner")
     public Winner addWinner(@RequestBody Winner winner) {
         return winnerService.addWinner(winner);
+    }
+    @GetMapping("/getAllWinners")
+    public List<WinnerDTO> getAllWinners() {
+        return winnerService.getAllWinners();
     }
 }

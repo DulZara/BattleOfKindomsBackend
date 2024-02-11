@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class HouseServiceImpl implements HouseService {
 
@@ -23,5 +25,11 @@ public class HouseServiceImpl implements HouseService {
     public House addHouse(House house) {
 
         return houseRepository.save(house);
+    }
+
+    @Override
+    public House getHouseByName(String houseName) {
+        Optional<House> optionalHouse = houseRepository.findByHouseName(houseName);
+        return optionalHouse.orElse(null); // You may want to handle null differently based on your needs
     }
 }

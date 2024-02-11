@@ -10,6 +10,8 @@ public interface EventService {
 
     public Event addEvent(Event event);
 
+    Event getEventById(Integer eventId);
+
 //    public Event deleteEvent(int eventId);
 //
 //    public Event updateEvent(int eventId, Event event);
