@@ -14,6 +14,9 @@ public class Winner {
     @Id
     private Integer winnerCode;
     private Integer eventId;
+    private String eventName;
+    private String eventGender;
+    private String eventType;
     private String houseName;
     private Integer groupId;
     private String place;
