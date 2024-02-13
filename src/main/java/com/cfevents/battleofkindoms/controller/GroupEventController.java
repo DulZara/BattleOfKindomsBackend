@@ -2,8 +2,10 @@ package com.cfevents.battleofkindoms.controller;
 
 import com.cfevents.battleofkindoms.DTO.GroupEventDTO;
 import com.cfevents.battleofkindoms.entity.GroupEvent;
+import com.cfevents.battleofkindoms.entity.Player;
 import com.cfevents.battleofkindoms.service.GroupEventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +32,22 @@ public class GroupEventController {
         return groupEventService.getAllGroupEventData();
     }
 
-    @PatchMapping("/{groupNo}/participation-conform")
-    public void updateParticipationConform(@PathVariable Integer groupNo, @RequestParam String newStatus) {
-        groupEventService.updateParticipationConform(groupNo, newStatus);
+    @PatchMapping("/{groupNo}/update-participation-conform")
+    public ResponseEntity<GroupEvent> updateParticipationConform(
+            @PathVariable Integer groupNo,
+            @RequestParam String newParticipationConform
+    ) {
+        GroupEvent updatedGroupEvent = groupEventService.updateParticipationConform(groupNo, newParticipationConform);
+        if (updatedGroupEvent != null) {
+            return ResponseEntity.ok(updatedGroupEvent);
+        } else {
+            // Handle not found exception
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/updateGroupEvent/{groupNo}")
+    public GroupEvent updateGroupEvent(@RequestParam int groupNo, @RequestBody GroupEvent groupEvent) {
+        return groupEventService.updateGroupEvent(groupNo, groupEvent);
     }
 }

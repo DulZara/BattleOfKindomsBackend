@@ -4,6 +4,7 @@ import com.cfevents.battleofkindoms.DTO.GroupEventDTO;
 import com.cfevents.battleofkindoms.entity.Event;
 import com.cfevents.battleofkindoms.entity.GroupEvent;
 import com.cfevents.battleofkindoms.entity.House;
+import com.cfevents.battleofkindoms.entity.Player;
 import com.cfevents.battleofkindoms.repository.GroupEventRepository;
 import com.cfevents.battleofkindoms.service.EventService;
 import com.cfevents.battleofkindoms.service.GroupEventService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +27,11 @@ public class GroupEventImpl implements GroupEventService {
 
     @Autowired
     private HouseService houseService;
+
+    @Autowired
+    public GroupEventImpl(GroupEventRepository groupEventRepository) {
+        this.groupEventRepository = groupEventRepository;
+    }
 
     @Override
     public List<GroupEvent> getGroupEvent() {
@@ -45,13 +52,17 @@ public class GroupEventImpl implements GroupEventService {
     }
 
     @Override
-    public void updateParticipationConform(Integer groupNo, String newStatus) {
-        GroupEvent groupEvent = groupEventRepository.findById(groupNo)
-                .orElseThrow(() -> new RuntimeException("GroupEvent not found with groupNo: " + groupNo));
+    public GroupEvent updateParticipationConform(Integer groupNo, String newParticipationConform) {
+        Optional<GroupEvent> optionalGroupEvent = groupEventRepository.findById(groupNo);
 
-        groupEvent.setParticipationConform(newStatus);
-        groupEventRepository.save(groupEvent);
-
+        if (optionalGroupEvent.isPresent()) {
+            GroupEvent groupEvent = optionalGroupEvent.get();
+            groupEvent.setParticipationConform(newParticipationConform);
+            return groupEventRepository.save(groupEvent);
+        } else {
+            // Handle not found exception or return null/throw an exception
+            return null;
+        }
     }
     private GroupEventDTO convertToDTO(GroupEvent groupEvent) {
         GroupEventDTO dto = new GroupEventDTO();
@@ -68,5 +79,19 @@ public class GroupEventImpl implements GroupEventService {
         dto.setHouseName(house.getHouseName());
 
         return dto;
+    }
+
+    @Override
+    public GroupEvent updateGroupEvent(int groupNo, GroupEvent groupEvent) {
+        GroupEvent groupvar =groupEventRepository.findById(groupNo).get();
+        groupvar.setEventId(groupEvent.getEventId());
+        groupvar.setEventName(groupEvent.getEventName());
+        groupvar.setEventType(groupEvent.getEventType());
+        groupvar.setEventGender(groupEvent.getEventGender());
+        groupvar.setHouseName(groupEvent.getHouseName());
+        groupvar.setPlayerEpf(groupEvent.getPlayerEpf());
+        groupvar.setParticipationConform(groupEvent.getParticipationConform());
+        groupEventRepository.save(groupvar);
+        return groupvar;
     }
 }

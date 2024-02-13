@@ -15,6 +15,9 @@ public class GroupEvent {
     @Id
     private Integer groupNo;
     private Integer eventId;
+    private String eventName;
+    private String eventType;
+    private String eventGender;
     private String houseName;
     private List<Integer> playerEpf;
     private String participationConform;

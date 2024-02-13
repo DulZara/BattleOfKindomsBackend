@@ -1,6 +1,7 @@
 package com.cfevents.battleofkindoms.service;
 
 import com.cfevents.battleofkindoms.entity.House;
+import com.cfevents.battleofkindoms.entity.Player;
 
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface HouseService {
 
     House getHouseByName(String houseName);
 
+    House updateHouse(String houseName, House updatedHouse);
+
+    Optional<House> getHouseByNames(String houseName);
 }
